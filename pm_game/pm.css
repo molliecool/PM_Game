@@ -1,0 +1,52 @@
+
+.hidden {
+	display: none;
+}
+
+#game_div{
+	background-color: LightBlue;
+	height: 500px;
+	width: 100%;
+	position: relative;
+	padding: 2px;
+}
+
+.gantt-bar{
+	width: 184px;
+	height: 10px;
+	margin-bottom: 3px;
+
+}
+
+.gantt-bar div{
+	width: 10%;
+	height: 14px;
+	border-right: 1px solid #ddd;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#main_menu {
+	position: absolute;
+	bottom: 0;
+	padding: 10px;
+	background: #E0E0E0;
+	width: 100%;
+}
+
+#main_menu form{
+
+}
+
+#preProdRect {
+	background: #396868;
+}	
+
+#prodRect {
+	background: #9CB4B4;
+}	
+
+#qaRect {
+	background: #68BCBC;
+}
