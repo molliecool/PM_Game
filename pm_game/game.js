@@ -4,14 +4,24 @@ var MAXPROJECTS = 2;
 var GAMEDAYS = 0;
 var DAYDELAY = 300;
 
+var PROJECTPHASELENGTH = 3;
+var DAYSINWEEK = 5;
+
 var showingProjects = false;
 var showingEmployees = false;
 
 var Player;
 
 var projIndex = 0;  //project that game uses to init
+var editProject = 0; //ProjectList ID that is being edited. 
 var EmployeeList = [];  //global this is ALL employees in the company
 var ProjectList = [];	//global this is ALL potential projects
+var ProjectEventsList = [];
+var BusinessEventsList = [];
+
+var BusinessEventProbability = .95;
+var ProjectEventProbability = .99;
+var NewProjectProbability = .80;
 
 Game.fps = 50;
 
@@ -20,7 +30,7 @@ Game.initialize = function() {
 		initEmployees();
 		//initClients();
 		initProjects();
-		//initEvents();
+		initEvents();
 	
 	dayIntervalID = setInterval(dayGoesBy, DAYDELAY);
 	
@@ -39,6 +49,17 @@ function dayGoesBy() {
 	for(var i in EmployeeList) {
 		EmployeeList[i].employeeHappinessMod(GAMEDAYS);
 	}
+	//update active events
+	for(var i in ProjectEventsList) {
+		if(ProjectEventsList[i].active) {
+			ProjectEventsList[i].dayGoesBy();
+		}	
+	}
+	for(var i in BusinessEventsList) {
+		if(BusinessEventsList[i].active) {
+			BusinessEventsList[i].dayGoesBy();
+		}
+	}
 	
 	//update ongoing projects
 	for(var i in ProjectList) {
@@ -49,17 +70,24 @@ function dayGoesBy() {
 				viewProjectSummary();
 			}
 			activeProjects++; //get a count of active projects
+			
+			if(Math.random()>ProjectEventProbability) {
+				//apply event that affects the entire company
+				ProjectList[i].projectEvent();
+				console.log("project event");
+			}
 		}
 	}
 
-	//check if event will occur that influences stuff
-	if(Math.random()>0.9) {
-	//apply event
-		newEvent();
+	
+	if(Math.random()>BusinessEventProbability) {
+	//apply event that affects the entire company
+		console.log("business event");
+		newBusinessEvent();
 	}
 	
 	//check and see if a new project comes in	
-	if(Math.random()>0.8 && activeProjects < MAXPROJECTS) {
+	if(Math.random()>NewProjectProbability && activeProjects < MAXPROJECTS) {
 	//if so, create and add project to the list
 		newProjectNotification();
 	}
@@ -69,14 +97,25 @@ function pMActionClick() {
 
 }
 function editProjectClick(e) {
-	console.log(e.name);
+	pauseDays();
 	for(var i in ProjectList){
 		if(ProjectList[i].name == e.name) {
 			console.log("project found");
 			ProjectList[i].editProject();
+			editProject = i;  //instead of a pointer I'll pass the list number
 		}
 	}
+	
+	//expand the project list to include the pm actions
 }
+
+function addOvertimeClick(e) {
+	/*switch(e) {
+		for(var i in ProjectList[editProject].assignedEmployeeTotals
+		ProjectList[editProject].assignedEmployeeTotals[i] *= 
+	*/
+}
+
 
 function pauseDays() {
 	clearInterval(dayIntervalID);

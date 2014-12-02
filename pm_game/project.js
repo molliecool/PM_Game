@@ -1,7 +1,5 @@
 //projReqmnt = [chr,cons,dex,int,str,wis]
 
-var PROJECTPHASELENGTH = 3;
-var DAYSINWEEK = 5;
 
 function Project(name,budget,weeks,rqmt) {
 	/*CONSTANT*/this.name = name;
@@ -21,6 +19,7 @@ function Project(name,budget,weeks,rqmt) {
 	for(var i in rqmt) {
 		/*CONSTANT*/this.ProjectRqmt[i] = weeks*DAYSINWEEK*rqmt[i];  
 	}
+	
 	//this.phaseRqmt = [[],[],[]];  //preProd, Prod, QA
 	this.preProdRqmt = [];
 	this.prodRqmt = [];
@@ -28,6 +27,7 @@ function Project(name,budget,weeks,rqmt) {
 	
 	//current project progress stats
 	this.currentProjStatus = [0,0,0,0,0,0];
+	this.projStatusForPercentage = [0,0,0,0,0,0];
 	
 	//resources assigned to project
 	this.resources = [];
@@ -41,7 +41,7 @@ function Project(name,budget,weeks,rqmt) {
 Project.prototype.getInfo = function() {
 	var percentages = [0,0,0,0,0,0];
 	for(var i in this.currentProjStatus) {
-		percentages[i] = (this.currentProjStatus[i]/this.ProjectRqmt[i]).toFixed(2);
+		percentages[i] = (this.projStatusForPercentage[i]/this.ProjectRqmt[i]).toFixed(2);
 	}
 	console.log(this.name+", phase: "+this.currentPhase+", cost: "+this.currentProjCost+", percent complete: "+percentages);
 }
@@ -49,11 +49,22 @@ Project.prototype.getInfo = function() {
 Project.prototype.returnInfo = function() {
 	var percentages = [0,0,0,0,0,0];
 	for(var i in this.currentProjStatus) {
-		percentages[i] = (this.currentProjStatus[i]/this.ProjectRqmt[i]).toFixed(2);
+		percentages[i] = (this.projStatusForPercentage[i]/this.ProjectRqmt[i]).toFixed(2);
 	}
 	var rString = this.name+", phase: "+this.currentPhase+", cost: "+this.currentProjCost+", percent complete: "+percentages;
 	return rString;
 }
+
+Project.prototype.editProject = function() {
+	console.log("in edit mode");
+}
+
+Project.prototype.projectEvent = function() {
+	var whichEvent = Math.random()*ProjectEventsList.length;
+	//ProjectEvents[whichEvent] - apply to project
+	
+}
+
 
 Project.prototype.resetProject = function() {
 	this.currentProjCost = 0;
@@ -64,6 +75,7 @@ Project.prototype.resetProject = function() {
 	this.prodRqmt = [];
 	this.qaRqmt = [];
 	this.currentProjStatus = [0,0,0,0,0,0];
+	this.projStatusForPercentage = [0,0,0,0,0,0];
 	this.resources = [];
 	this.assignedEmployeeTotals = [0,0,0,0,0,0];
 	this.assignedEmployeeCost = 0;
@@ -138,6 +150,9 @@ Project.prototype.update = function() {
 	for(var i in this.currentProjStatus) {
 		//if the stats doesn't exceed the requirements, flag the skill as incomplete
 		//then add increase the completed skill
+		
+		//this.projStatusForPercentage[i] += this.assignedEmployeeTotals[i];
+		
 		switch(this.currentPhase) {
 			case 0:
 				//console.log("phase 1");
@@ -148,6 +163,7 @@ Project.prototype.update = function() {
 				else if(this.currentProjStatus[i] > this.preProdRqmt[i]) {
 					this.currentProjStatus[i] = this.preProdRqmt[i];
 				}
+				this.projStatusForPercentage[i] = this.currentProjStatus[i];  //keeps the percentage accurate hopefully
 				break;
 			case 1:
 				//console.log("phase 2");
@@ -158,6 +174,7 @@ Project.prototype.update = function() {
 				else if(this.currentProjStatus[i] > this.prodRqmt[i]) {
 					this.currentProjStatus[i] = this.prodRqmt[i];
 				}
+					this.projStatusForPercentage[i] = this.preProdRqmt[i] + this.currentProjStatus[i];
 				break;
 			case 2:
 				//console.log("phase 3");
@@ -168,6 +185,7 @@ Project.prototype.update = function() {
 				else if(this.currentProjStatus[i] > this.qaRqmt[i]) {
 					this.currentProjStatus[i] = this.qaRqmt[i];
 				}
+					this.projStatusForPercentage[i] = this.preProdRqmt[i] + this.prodRqmt[i] + this.currentProjStatus[i];
 				break;
 			default:
 				//console.log("didn't register phase in switch");
