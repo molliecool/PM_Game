@@ -282,12 +282,14 @@ function submitProjectPlan() {
 	}
 	
 	$('#createProject').addClass('hidden');
+	moveDown();
 	resumeDays();
 }
 
 function newProjectNotification() {
 	//delay and test project creation
 	clickedAlert();
+	moveUpActive("blank");
 	
 	//picking the project here
 	//make sure it isn't already active

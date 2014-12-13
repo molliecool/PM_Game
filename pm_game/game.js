@@ -120,6 +120,7 @@ var blinkAlert = function(){
 
 function newAlert(type) {
 	if(alertQueue.length > 0) { 
+		$('#alert').removeClass('hidden');
 		blinkIntervalID = setInterval(blinkAlert, 1000);
 	}
 	
@@ -268,7 +269,46 @@ function moveUp() {
 		}, 1000);
 	}
 }
+function moveUpActive(tab) {
+	switch(tab) {
+		case "project-summary": 	tab = 0;
+									break;
+
+		case "employee-summary": 	tab = 1;
+									break;
+
+		case "pm-actions": 			tab = 2;
+									break;									
+									
+		case "game-options": 		tab = 3;
+									break;	
+									
+		case "blank": 		tab = 4;
+									break;	
+		
+		default:					console.log("tab not found");
+									break;
+	}
+	
+	if(!menuOpen) {
+		menuOpen = true;
+		$( "#main-menu-container" ).animate({
+		  'top': '100px',
+		  'height': '100%'
+		}, 1000);
+		$( "#main-menu" ).tabs({
+			'active': tab
+		});
+	}
+	else {
+		$( "#main-menu" ).tabs({
+			'active': tab
+		});
+	}
+}
+
 function moveDown() {
+	//console.log("moveDown called");
 	if(menuOpen) {
 		$( "#main-menu" ).tabs({ active: false });  //close the tab
 		//calculate height

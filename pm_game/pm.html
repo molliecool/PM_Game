@@ -12,7 +12,7 @@
 <body class="stop-scrolling">
 
 <div id="mollie-div">
-<div id="game-area" onclick="moveDown()">
+<div id="game-area">
 	<h3>You're a PMO Director</h3>
 	<div>
 		<form id="pause_btn">
@@ -26,12 +26,7 @@
 	******* Notification of a new project *******
 	*************************************************************
 	 -->
-	<div id="newProjectBtn" class = "hidden">
-		<p id="message">You got a new project!</p>
-		<form>
-			<button type="button" onclick="createProjectPlan()">Accept</button>
-		</form>
-	</div>
+
 	<div id="notification" onclick="openNotification()">
 		<div id="alert" class="hidden">
 		</div>
@@ -42,28 +37,7 @@
 	******* This is the display for a new project *******
 	*************************************************************
 	 -->
-	<div id="createProject" class="hidden">
-		<form action="demo_form.asp">
-		  Scouting:  <input id="pProdPrct" type="text" value="30"><br>
-		  Questing:  <input id="prodPrct" type="text" value="40"><br>
-		  Returning: <input id="qaPrct" type="text" value="30"><br>
-		  <button type="button" onclick="updateProjectPlanDisplay()">Update</button>
-		  <button type="button" onclick="submitProjectPlan()">Start Project</button>
-		</form>
-		<div class="gantt-bar">
-			<div id="preProdRect"></div>
-		</div>
-		<div class="gantt-bar">
-			<div id="prodRect"></div>
-		</div>
-		<div class="gantt-bar">
-			<div id="qaRect"></div>
-		</div>
-		<ul id="added_employee">
-		</ul>
-		<ul id="employee_list">
-		</ul>
-	</div>
+	
 </div> <!-- end game-area -->
 
 	<!-- 
@@ -76,6 +50,7 @@
 			<li><a href="#employee-summary">Employees</a></li>
 			<li><a href="#pm-actions">Take Action</a></li>
 			<li><a href="#game-options">Options</a></li>
+			<li><a href="#blank"></a></li>
 		</ul>
 		<div id="project-summary">
 		</div>
@@ -89,6 +64,36 @@
 			<p><strong>Click this tab again to close the content pane.</strong></p>
 			<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
 		</div>
+		<div id="blank">
+			<div id="newProjectBtn" class = "hidden">
+				<p id="message">You got a new project!</p>
+				<form>
+					<button type="button" onclick="createProjectPlan()">Accept</button>
+				</form>
+			</div>
+			<div id="createProject" class="hidden">
+				<form action="demo_form.asp">
+				  Scouting:  <input id="pProdPrct" type="text" value="30"><br>
+				  Questing:  <input id="prodPrct" type="text" value="40"><br>
+				  Returning: <input id="qaPrct" type="text" value="30"><br>
+				  <button type="button" onclick="updateProjectPlanDisplay()">Update</button>
+				  <button type="button" onclick="submitProjectPlan()">Start Project</button>
+				</form>
+				<div class="gantt-bar">
+					<div id="preProdRect"></div>
+				</div>
+				<div class="gantt-bar">
+					<div id="prodRect"></div>
+				</div>
+				<div class="gantt-bar">
+					<div id="qaRect"></div>
+				</div>
+				<ul id="added_employee">
+				</ul>
+				<ul id="employee_list">
+				</ul>
+			</div>
+		</div>  <!-- blank tab -->
 	</div>
 </div> <!-- main-menu-container -->
 
