@@ -143,7 +143,8 @@ function initEvents() {
 	//temporary while reading in from xml
 	//(name, type, employeeAffected, delayToStart, eventLength, modifier)
 	var e0 = new EmployeeEvent("Leah and Kevin are getting married!","employee","Leah",5,10,"unavailable");  //what about multiple employees
-
+	
+	
 	var EventList = [e0];
 	
 	for(var i in EventList) {

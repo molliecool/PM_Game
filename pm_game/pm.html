@@ -3,82 +3,100 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="pm.css"> 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!--link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script-->
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 </head>
 
-<body>
-<div id="game_div">
+<body class="stop-scrolling">
 
-<h3>You're a PMO Director</h3>
-<div>
-	<form id="pause_btn">
-		<button type="button" onclick="pauseDays()">Pause</button>
-		<button type="button" onclick="resumeDays()">Resume</button>
-	</form>
-</div>
-
-<!-- 
-*************************************************************
-******* Notification of a new project *******
-*************************************************************
- -->
-<div id="newProjectBtn" class = "hidden">
-	<p id="message">You got a new project!</p>
-	<form>
-		<button type="button" onclick="createProjectPlan()">Accept</button>
-	</form>
-</div>
-
-<!-- 
-*************************************************************
-******* This is the display for a new project *******
-*************************************************************
- -->
-<div id="createProject" class="hidden">
-	<form action="demo_form.asp">
-	  Scouting:  <input id="pProdPrct" type="text" value="30"><br>
-	  Questing:  <input id="prodPrct" type="text" value="40"><br>
-	  Returning: <input id="qaPrct" type="text" value="30"><br>
-	  <button type="button" onclick="updateProjectPlanDisplay()">Update</button>
-	  <button type="button" onclick="submitProjectPlan()">Start Project</button>
-	</form>
-	<div class="gantt-bar">
-		<div id="preProdRect"></div>
+<div id="mollie-div">
+<div id="game-area" onclick="moveDown()">
+	<h3>You're a PMO Director</h3>
+	<div>
+		<form id="pause_btn">
+			<button type="button" onclick="pauseDays()">Pause</button>
+			<button type="button" onclick="resumeDays()">Resume</button>
+		</form>
 	</div>
-	<div class="gantt-bar">
-		<div id="prodRect"></div>
+
+	<!-- 
+	*************************************************************
+	******* Notification of a new project *******
+	*************************************************************
+	 -->
+	<div id="newProjectBtn" class = "hidden">
+		<p id="message">You got a new project!</p>
+		<form>
+			<button type="button" onclick="createProjectPlan()">Accept</button>
+		</form>
 	</div>
-	<div class="gantt-bar">
-		<div id="qaRect"></div>
+	<div id="notification" onclick="openNotification()">
+		<div id="alert" class="hidden">
+		</div>
 	</div>
-	<ul id="added_employee">
-	</ul>
-	<ul id="employee_list">
-	</ul>
-</div>
-	
-<!-- 
-******* Div for Statuses *******
- -->
-<div id="statuses">
 
-</div>
+	<!-- 
+	*************************************************************
+	******* This is the display for a new project *******
+	*************************************************************
+	 -->
+	<div id="createProject" class="hidden">
+		<form action="demo_form.asp">
+		  Scouting:  <input id="pProdPrct" type="text" value="30"><br>
+		  Questing:  <input id="prodPrct" type="text" value="40"><br>
+		  Returning: <input id="qaPrct" type="text" value="30"><br>
+		  <button type="button" onclick="updateProjectPlanDisplay()">Update</button>
+		  <button type="button" onclick="submitProjectPlan()">Start Project</button>
+		</form>
+		<div class="gantt-bar">
+			<div id="preProdRect"></div>
+		</div>
+		<div class="gantt-bar">
+			<div id="prodRect"></div>
+		</div>
+		<div class="gantt-bar">
+			<div id="qaRect"></div>
+		</div>
+		<ul id="added_employee">
+		</ul>
+		<ul id="employee_list">
+		</ul>
+	</div>
+</div> <!-- end game-area -->
 
-<div id="main_menu">
-<p>Game Menu</p>
-	<form>
-		<button type="button" onclick="viewProjectSummaryClick()">View Projects</button>
-		<button type="button" onclick="viewEmployeeSummaryClick()">View Employees</button>
-		<button type="button" onclick="pMActionClick()">PM Actions</button>
-	</form>
-</div>
+	<!-- 
+	******* Div for Statuses *******
+	 -->
+<div id="main-menu-container">
+	<div id="main-menu">
+		<ul>
+			<li><a href="#project-summary">Active Projects</a></li>
+			<li><a href="#employee-summary">Employees</a></li>
+			<li><a href="#pm-actions">Take Action</a></li>
+			<li><a href="#game-options">Options</a></li>
+		</ul>
+		<div id="project-summary">
+		</div>
+		<div id="employee-summary">
+		</div>
+		<div id="pm-actions">
+			<p><strong>Click this tab again to close the content pane.</strong></p>
+			<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+		</div>
+		<div id="game-options">
+			<p><strong>Click this tab again to close the content pane.</strong></p>
+			<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+		</div>
+	</div>
+</div> <!-- main-menu-container -->
 
-</div>
-	
-	
+</div><!-- end mollie-div -->
 	
 <script src="playerCharacter.js" type="text/javascript"> </script>	
 <script src="employee.js" type="text/javascript"> </script>
-<!--script src="client.js" type="text/javascript"> </script-->
+<script src="client.js" type="text/javascript"> </script>
 <script src="event.js" type="text/javascript"> </script>
 <script src="project.js" type="text/javascript"> </script>
 <script src="game.js" type="text/javascript"> </script>

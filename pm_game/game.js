@@ -1,14 +1,26 @@
 var Game = {};
 
-var MAXPROJECTS = 2;
+//lock scrolling hopefully
+$('body').on({
+'mousewheel': function(e) {
+    if (e.target.id == 'el') return;
+    e.preventDefault();
+    e.stopPropagation();
+    }
+})
+
+var MAXPROJECTS = 1;
 var GAMEDAYS = 0;
 var DAYDELAY = 300;
 
 var PROJECTPHASELENGTH = 3;
 var DAYSINWEEK = 5;
 
+var menuOpen = false;
 var showingProjects = false;
 var showingEmployees = false;
+var currentTab = 0;
+var activeProjects = 0;
 
 var Player;
 
@@ -16,34 +28,40 @@ var projIndex = 0;  //project that game uses to init
 var editProject = 0; //ProjectList ID that is being edited. 
 var EmployeeList = [];  //global this is ALL employees in the company
 var ProjectList = [];	//global this is ALL potential projects
+var ClientList = [];
 var ProjectEventsList = [];
 var BusinessEventsList = [];
+var alertQueue = [];
 
 var BusinessEventProbability = .95;
 var ProjectEventProbability = .99;
 var NewProjectProbability = .80;
+
+var dayIntervalID, blinkIntervalID;
 
 Game.fps = 50;
 
 Game.initialize = function() {
 	
 		initEmployees();
-		//initClients();
+		initClients();
 		initProjects();
 		initEvents();
 	
 	dayIntervalID = setInterval(dayGoesBy, DAYDELAY);
 	
 	Player = new PlayerCharacter("Scythe Whitman", 14,12,10,13,8,15);
+	
+	//scrolling on mobile:  $('body').bind('touchmove', function(e){e.preventDefault()})
 
 }
+
+
 
 
 function dayGoesBy() {
 	console.log("**************************** day "+GAMEDAYS+" ****************************");
 	GAMEDAYS++;  //increase game counter
-
-	var activeProjects = 0;
 	
 	//modify employee happiness
 	for(var i in EmployeeList) {
@@ -69,10 +87,10 @@ function dayGoesBy() {
 			if(showingProjects) {
 				viewProjectSummary();
 			}
-			activeProjects++; //get a count of active projects
+			//activeProjects++; //get a count of active projects
 			
 			if(Math.random()>ProjectEventProbability) {
-				//apply event that affects the entire company
+				//apply event that affects the individual project
 				ProjectList[i].projectEvent();
 				console.log("project event");
 			}
@@ -83,14 +101,46 @@ function dayGoesBy() {
 	if(Math.random()>BusinessEventProbability) {
 	//apply event that affects the entire company
 		console.log("business event");
-		newBusinessEvent();
+		//newBusinessEvent();
 	}
 	
 	//check and see if a new project comes in	
-	if(Math.random()>NewProjectProbability && activeProjects < MAXPROJECTS) {
+	if(Math.random()>NewProjectProbability && activeProjects < MAXPROJECTS) { 
+		alertQueue.push("new_project");
+		activeProjects++;
+		newAlert();
 	//if so, create and add project to the list
-		newProjectNotification();
+		//newProjectNotification();
 	}
+}
+
+var blinkAlert = function(){
+     $('#alert').toggle();
+};
+
+function newAlert(type) {
+	if(alertQueue.length > 0) { 
+		blinkIntervalID = setInterval(blinkAlert, 1000);
+	}
+	
+	//need to push onto an array and then pop off one at a time per click
+	var note = document.getElementById("notification");
+	switch(alertQueue.shift()) {
+		case "new_project":		note.setAttribute('onclick', 'newProjectNotification();');
+								console.log("new project queued");
+								break;
+							
+		default:				console.log("alert type not found");
+								break;
+	}
+}
+
+function clickedAlert() {
+	clearInterval(blinkIntervalID);  //stop blink
+	$('#alert').addClass('hidden'); //reset hidden
+	pauseDays();
+	
+	document.getElementById("notification").removeAttribute("onclick");  //remove click event
 }
 
 function pMActionClick() {
@@ -187,11 +237,51 @@ function viewEmployeeSummary() {
 		//make a new list item to push to currently added employees
 		var li = document.createElement('li');
 		li.innerHTML = EmployeeList[i].returnInfo();
-		//li.setAttribute('onclick', 'removeEmployeeFromProject(this); return false;');
-		document.getElementById("statuses").appendChild(li);
+		document.getElementById("employee-summary").appendChild(li);
 	}
 }
 
+
+//*************************************************
+// Main Menu Tab Management
+//*************************************************
+$(function() {
+	$( "#main-menu" ).tabs({
+		collapsible: true,
+		active: false,
+		activate: function(event,ui) {
+			//refreshTabData();
+			if(-1 == ui.newTab.index()) {
+				menuOpen = true;
+				moveDown(); 
+				}
+			else { moveUp(); }
+		}
+	});
+});
+function moveUp() {
+	if(!menuOpen) {
+		menuOpen = true;
+		$( "#main-menu-container" ).animate({
+		  'top': '100px',
+		  'height': '100%'
+		}, 1000);
+	}
+}
+function moveDown() {
+	if(menuOpen) {
+		$( "#main-menu" ).tabs({ active: false });  //close the tab
+		//calculate height
+		var temp = $("#main-menu-container").parent().height()-50;  //last digit is height of menu-container
+		menuOpen = false;
+		$( "#main-menu-container" ).animate({'top': temp, 'height': '50px'}, 1000);  //lower the container
+		
+	}
+}
+
+function AddAlert() {
+
+}
 
 
 Game.update = function() {

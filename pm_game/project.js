@@ -209,6 +209,7 @@ Project.prototype.update = function() {
 		//also reset the project requirements back to their original values
 		this.resetProject();
 		console.log("project complete!");
+		activeProjects--;
 	}
 	this.getInfo();
 }
@@ -286,7 +287,7 @@ function submitProjectPlan() {
 
 function newProjectNotification() {
 	//delay and test project creation
-	pauseDays();
+	clickedAlert();
 	
 	//picking the project here
 	//make sure it isn't already active

@@ -1,17 +1,15 @@
 
-function Client (name, title, priceTier, goals, s1,s2,s3,s4,s5,s6) {
+function Client (name, desc, poc, busWorth, s1,s2,s3,s4,s5,s6, compProj) {
 	this.name = name;
-	this.title = title;
-	this.available = true;
-	this.assignedTo = "None";
+	this.description = desc;
+	this.pointOfContact = poc;
 	
+	this.busWorth = busWorth;
+	//responsiveness, need for control, involvement
 	this.skills = [s1,s2,s3,s4,s5,s6];
-	this.priceTier = priceTier;  //1(entry) through 3(director)
-	this.billRate = this.priceTier*40 + 100;
-
-	this.happiness = 50;
-	this.respect = 50;
-	this.goals = goals;
+	
+	this.companyProjects = compProj;
+	
 }
 
 Client.prototype.getInfo = function() {
@@ -23,3 +21,11 @@ Client.prototype.getInfo = function() {
 //*************************************************
 // Functions used by game.js
 //*************************************************
+
+function initClients() {
+	var c01 = new Client("Merry Old Soles", "Shoe and Magic Slipper Company", "Old King Cole", 1000000, 10,10,10,10,10,10, 
+						["none"]);
+	
+	ClientList = [c01];
+	
+}
