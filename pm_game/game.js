@@ -1,14 +1,5 @@
 var Game = {};
 
-//lock scrolling hopefully
-$('body').on({
-'mousewheel': function(e) {
-    if (e.target.id == 'el') return;
-    e.preventDefault();
-    e.stopPropagation();
-    }
-})
-
 var MAXPROJECTS = 1;
 var GAMEDAYS = 0;
 var DAYDELAY = 300;
@@ -40,6 +31,16 @@ var NewProjectProbability = .80;
 var dayIntervalID, blinkIntervalID;
 
 Game.fps = 50;
+
+
+//lock scrolling hopefully
+$('body').on({
+'mousewheel': function(e) {
+    if (e.target.id == 'el') return;
+    e.preventDefault();
+    e.stopPropagation();
+    }
+})
 
 Game.initialize = function() {
 	
@@ -114,35 +115,6 @@ function dayGoesBy() {
 	}
 }
 
-var blinkAlert = function(){
-     $('#alert').toggle();
-};
-
-function newAlert(type) {
-	if(alertQueue.length > 0) { 
-		$('#alert').removeClass('hidden');
-		blinkIntervalID = setInterval(blinkAlert, 1000);
-	}
-	
-	//need to push onto an array and then pop off one at a time per click
-	var note = document.getElementById("notification");
-	switch(alertQueue.shift()) {
-		case "new_project":		note.setAttribute('onclick', 'newProjectNotification();');
-								console.log("new project queued");
-								break;
-							
-		default:				console.log("alert type not found");
-								break;
-	}
-}
-
-function clickedAlert() {
-	clearInterval(blinkIntervalID);  //stop blink
-	$('#alert').addClass('hidden'); //reset hidden
-	pauseDays();
-	
-	document.getElementById("notification").removeAttribute("onclick");  //remove click event
-}
 
 function pMActionClick() {
 

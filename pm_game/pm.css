@@ -17,7 +17,14 @@
 	left: 20px;
 }
 
-#alert {
+canvas {
+	height: 75%;
+	width: 90%;
+	border: 1px dotted;
+	position: absolute;
+}
+
+#smallalert {
 	background-color: White;
 	height: 20px;
 	width: 20px;
@@ -46,11 +53,20 @@
 
 
 #main-menu-container {
-	background-color: LightCoral;
+	border-style: solid;
+	border-width: 27px;
+	/*background-image: url("images/bkgrd_menu_tile.jpg");*/
+	border-image: url("images/bkgrd_menu_corner.png") 27 fill round;
+	-moz-border-image: url("images/bkgrd_menu_corner.png") 27 repeat;
+	-webkit-border-image: url("images/bkgrd_menu_corner.png") 27 round;
+	-o-border-image: url("images/bkgrd_menu_corner.png") 27 repeat;
+	
+	
+	
 	height: 50px;
 	top: calc( 100% - 50px );
 	left: 100px;
-	width: calc( 100% - 100px );
+	width: 70%; /*  calc( 100% - 100px );*/
 	position: absolute;
 }
 #main-menu { 
@@ -73,10 +89,11 @@
     border: none; 
 } 
 #main-menu .ui-tabs-nav .ui-state-default a { 
-    color: #c0c0c0; 
+    color: #000000; 
 } 
 #main-menu .ui-tabs-nav .ui-state-active a { 
     color: #459e00; 
+    -webkit-test-stroke: 1px black;
 }
 
 

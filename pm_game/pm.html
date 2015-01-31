@@ -13,22 +13,22 @@
 
 <div id="mollie-div">
 <div id="game-area">
-	<h3>You're a PMO Director</h3>
 	<div>
 		<form id="pause_btn">
 			<button type="button" onclick="pauseDays()">Pause</button>
 			<button type="button" onclick="resumeDays()">Resume</button>
 		</form>
 	</div>
+	<canvas id="mycanvas"></canvas>
 
 	<!-- 
 	*************************************************************
 	******* Notification of a new project *******
 	*************************************************************
-	 -->
+	-->
 
-	<div id="notification" onclick="openNotification()">
-		<div id="alert" class="hidden">
+	<div id="notification">
+		<div id="smallalert" class="hidden">
 		</div>
 	</div>
 
@@ -104,6 +104,9 @@
 <script src="client.js" type="text/javascript"> </script>
 <script src="event.js" type="text/javascript"> </script>
 <script src="project.js" type="text/javascript"> </script>
+<script src="newProjectStuff.js" type="text/javascript"> </script>
+<script src="notifications.js" type="text/javascript"> </script>
+<script src="drawing.js" type="text/javascript"> </script>
 <script src="game.js" type="text/javascript"> </script>
 
 <script type="text/javascript">
