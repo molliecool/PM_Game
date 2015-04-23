@@ -24,6 +24,8 @@ var ProjectEventsList = [];
 var BusinessEventsList = [];
 var alertQueue = [];
 
+var stuffToDraw = [];
+
 var BusinessEventProbability = .95;
 var ProjectEventProbability = .99;
 var NewProjectProbability = .80;
@@ -54,10 +56,10 @@ Game.initialize = function() {
 	Player = new PlayerCharacter("Scythe Whitman", 14,12,10,13,8,15);
 	
 	//scrolling on mobile:  $('body').bind('touchmove', function(e){e.preventDefault()})
+	
+	//problemSolving();
 
 }
-
-
 
 
 function dayGoesBy() {
@@ -115,193 +117,35 @@ function dayGoesBy() {
 	}
 }
 
-
-function pMActionClick() {
-
-}
-function editProjectClick(e) {
-	pauseDays();
-	for(var i in ProjectList){
-		if(ProjectList[i].name == e.name) {
-			console.log("project found");
-			ProjectList[i].editProject();
-			editProject = i;  //instead of a pointer I'll pass the list number
-		}
-	}
-	
-	//expand the project list to include the pm actions
-}
-
-function addOvertimeClick(e) {
-	/*switch(e) {
-		for(var i in ProjectList[editProject].assignedEmployeeTotals
-		ProjectList[editProject].assignedEmployeeTotals[i] *= 
-	*/
-}
-
-
 function pauseDays() {
 	clearInterval(dayIntervalID);
 }
 function resumeDays() {
 	dayIntervalID = setInterval(dayGoesBy, DAYDELAY);
 }
-function viewProjectSummaryClick() {
-	if(showingEmployees) {
-		showingEmployees = false;
-		closeSummary();
-	}
-	if(showingProjects) {
-		showingProjects = false;
-		closeSummary();
-	}
-	else { 
-	showingProjects = true;
-	viewProjectSummary();	
-	}
-}
-function viewProjectSummary() {
-	var node = document.getElementById("statuses");
-	while (node.firstChild) {
-		node.removeChild(node.firstChild);
-	}
-	for(var i in ProjectList) {
-		if(ProjectList[i].projActive)
-		{
-			//make a new list item 
-			var li = document.createElement('li');
-			li.innerHTML = ProjectList[i].returnInfo();
-			var btn = document.createElement('button');
-			btn.innerHTML = "Edit";
-			btn.setAttribute('onclick', 'editProjectClick(this); return false;');
-			btn.setAttribute('name', ProjectList[i].name);
-			li.appendChild(btn);
-			document.getElementById("statuses").appendChild(li);
-		}
-	}
-}
-function closeSummary() {
-	var node = document.getElementById("statuses");
-	while (node.firstChild) {
-		node.removeChild(node.firstChild);
-	}
-}
-function viewEmployeeSummaryClick() {
-	if(showingProjects) {
-		showingProjects = false;
-		closeSummary();
-	}
-	if(showingEmployees) {
-		showingEmployees = false;
-		closeSummary();
-	}
-	else { 
-	showingEmployees = true;
-	viewEmployeeSummary();	
-	}
-}
-function viewEmployeeSummary() {
-	var node = document.getElementById("statuses");
-	while (node.firstChild) {
-		node.removeChild(node.firstChild);
-	}
-	
-	for(var i in EmployeeList) {
-		//make a new list item to push to currently added employees
-		var li = document.createElement('li');
-		li.innerHTML = EmployeeList[i].returnInfo();
-		document.getElementById("employee-summary").appendChild(li);
-	}
-}
-
-
-//*************************************************
-// Main Menu Tab Management
-//*************************************************
-$(function() {
-	$( "#main-menu" ).tabs({
-		collapsible: true,
-		active: false,
-		activate: function(event,ui) {
-			//refreshTabData();
-			if(-1 == ui.newTab.index()) {
-				menuOpen = true;
-				moveDown(); 
-				}
-			else { moveUp(); }
-		}
-	});
-});
-function moveUp() {
-	if(!menuOpen) {
-		menuOpen = true;
-		$( "#main-menu-container" ).animate({
-		  'top': '100px',
-		  'height': '100%'
-		}, 1000);
-	}
-}
-function moveUpActive(tab) {
-	switch(tab) {
-		case "project-summary": 	tab = 0;
-									break;
-
-		case "employee-summary": 	tab = 1;
-									break;
-
-		case "pm-actions": 			tab = 2;
-									break;									
-									
-		case "game-options": 		tab = 3;
-									break;	
-									
-		case "blank": 		tab = 4;
-									break;	
-		
-		default:					console.log("tab not found");
-									break;
-	}
-	
-	if(!menuOpen) {
-		menuOpen = true;
-		$( "#main-menu-container" ).animate({
-		  'top': '100px',
-		  'height': '100%'
-		}, 1000);
-		$( "#main-menu" ).tabs({
-			'active': tab
-		});
-	}
-	else {
-		$( "#main-menu" ).tabs({
-			'active': tab
-		});
-	}
-}
-
-function moveDown() {
-	//console.log("moveDown called");
-	if(menuOpen) {
-		$( "#main-menu" ).tabs({ active: false });  //close the tab
-		//calculate height
-		var temp = $("#main-menu-container").parent().height()-50;  //last digit is height of menu-container
-		menuOpen = false;
-		$( "#main-menu-container" ).animate({'top': temp, 'height': '50px'}, 1000);  //lower the container
-		
-	}
-}
-
-function AddAlert() {
-
-}
 
 
 Game.update = function() {
+	//ask tavern if anything is changing
+	//ask character if they are moving around 
+	//move them
+
+	//do all the sprite updates
 	
+	for(var i in SpriteList) {
+		SpriteList[i].update();
+	}
 };
 
 Game.draw = function() {
-
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	//draw tavern
+	//draw characters
+	for(var i in SpriteList) {
+		if(SpriteList[i].draw) {
+			SpriteList[0].render();
+		}
+	}
 };
 
 //this drives the main game loop
@@ -319,9 +163,32 @@ Game.run = (function() {
       loops++;
     }
     
-    Game.draw();
+    if(loops) Game.draw();
   };
 })();
+
+(function() {
+  var onEachFrame;
+  if (window.webkitRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); webkitRequestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else if (window.mozRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else {
+    onEachFrame = function(cb) {
+      setInterval(cb, 1000 / 60);
+    }
+  }
+  
+  window.onEachFrame = onEachFrame;
+})();
+
+window.onEachFrame(Game.run);
 
 Game.initialize();
 

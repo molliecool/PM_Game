@@ -1,7 +1,8 @@
 //where the canvas stuff happens
+//animation tutorial: http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/
 
-var theCanvas = document.getElementById("mycanvas");
-var ctx = theCanvas.getContext("2d");
+var canvas = document.getElementById("mycanvas");
+var ctx = canvas.getContext("2d");
 
 //as of right now, the player will have minimum input to this
 /* features:
@@ -14,10 +15,15 @@ var ctx = theCanvas.getContext("2d");
 */
 
 //set the areas of the tavern
-setupTavern() {
+function setupTavern() {
 
+//draw a grid
 //make objects of each area
 
+
+}
+
+function drawTavern() {
 
 }
 
@@ -40,8 +46,8 @@ Location.prototype.getInfo = function() {
 //have char get there, confirm it has arrived, then trigger animations
 
 
-initLocations(){
-	var spots[];
+function initLocations() {
+	var spots = [0];
 	var bar = new Location("bar", spots);
 	
 	tavernLocationList = [bar];

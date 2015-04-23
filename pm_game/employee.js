@@ -2,12 +2,15 @@
 var HAPPINESSWEIGHT = 0.1;
 var HAPPINESSFLUXFREQ = 0.1; //a little over 60 days
 
-function Employee (name, title, priceTier, goals, s1,s2,s3,s4,s5,s6) {
+function Employee (name, title, image, priceTier, goals, s1,s2,s3,s4,s5,s6) {
 	this.name = name;
 	this.title = title;
 	this.available = true;  //employee on other project
 	this.ooo = false;  //employee out of office, not available to be assigned
 	this.assignedTo = "None";
+	
+	//add the image stuff
+	this.image = new Sprite();
 	
 	this.BASESKILLS = [s1,s2,s3,s4,s5,s6];
 	this.skills = [s1,s2,s3,s4,s5,s6];

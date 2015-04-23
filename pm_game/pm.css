@@ -20,8 +20,10 @@
 canvas {
 	height: 75%;
 	width: 90%;
+	margin: 5px;
 	border: 1px dotted;
 	position: absolute;
+	background-color: #D5DED9;
 }
 
 #smallalert {
@@ -45,7 +47,7 @@ canvas {
 }
 
 #game-area {
-	background-color: BlanchedAlmond;
+	background-color: #948C75;
 	position: relative;
 	padding: 10px 10px 0px 30px;
 	height: 100%;
@@ -54,12 +56,13 @@ canvas {
 
 #main-menu-container {
 	border-style: solid;
-	border-width: 27px;
-	/*background-image: url("images/bkgrd_menu_tile.jpg");*/
-	border-image: url("images/bkgrd_menu_corner.png") 27 fill round;
+	border-width: 2px;
+	border-color: #7A6A53;
+	background-color: #D9CEB2;
+	/*border-image: url("images/bkgrd_menu_corner.png") 27 fill round;
 	-moz-border-image: url("images/bkgrd_menu_corner.png") 27 repeat;
 	-webkit-border-image: url("images/bkgrd_menu_corner.png") 27 round;
-	-o-border-image: url("images/bkgrd_menu_corner.png") 27 repeat;
+	-o-border-image: url("images/bkgrd_menu_corner.png") 27 repeat;*/
 	
 	
 	
@@ -89,10 +92,10 @@ canvas {
     border: none; 
 } 
 #main-menu .ui-tabs-nav .ui-state-default a { 
-    color: #000000; 
+    color: #7A6A53; 
 } 
 #main-menu .ui-tabs-nav .ui-state-active a { 
-    color: #459e00; 
+    color: #6B8F95; 
     -webkit-test-stroke: 1px black;
 }
 
